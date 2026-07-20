@@ -1,149 +1,163 @@
+-- Modern Rayfield UI Library Setup
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu'))()
+
+-- Script Notification (Runs instantly when executed)
+Rayfield:Notify({
+    Title = "Script Loaded!",
+    Content = "Underground War 2.0 Hack is active and ready.",
+    Duration = 5,
+    Image = 4483362458, -- Built-in checkmark icon
+})
+
+-- Core Variables
 local Players = game.Players
 local plr = Players.LocalPlayer
-local loop = true
-local retry = true
+local loop = false 
+local retry = false
 _G.name = "sword"
 _G.enemOnly = true
 local reach = 150
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/turtle"))()
+-- Create Main Clean Window
+local Window = Rayfield:CreateWindow({
+    Name = "⚡ Underground War 2.0",
+    LoadingTitle = "Loading System...",
+    LoadingSubtitle = "by Rohannuman",
+    ConfigurationSaving = {
+        Enabled = false
+    },
+    KeySystem = false
+})
 
-local Window = library:Window("KillAura")
+-- Create a Clean Main Tab
+local MainTab = Window:CreateTab("Combat", 4483362458) -- Weapon/Combat Icon
 
-function findTool(String)
+-- Helper Functions for Tools
+local function findTool(String)
     local strl = String:lower()
-    for i,v in pairs(plr.Backpack:GetChildren()) do
-       if v.Name:lower():match(strl) ~= nil then
-          return v
-          end
-       end
-    for i,v in pairs(plr.Character:GetChildren()) do
-       if v.Name:lower():match(strl) ~= nil then
-          return v
-          end
-       end
+    for _, v in pairs(plr.Backpack:GetChildren()) do
+        if v.Name:lower():match(strl) ~= nil then return v end
     end
-
-function getTool()
-    return findTool(_G.name)
-   
+    for _, v in pairs(plr.Character:GetChildren()) do
+        if v.Name:lower():match(strl) ~= nil then return v end
+    end
 end
 
-function KillAura()
-    loop = true
+local function getTool()
+    return findTool(_G.name)
+end
+
+-- Core KillAura Logic Function
+local function KillAura()
     if _G.enemOnly == true then
-    repeat
-    for i,v in pairs(game.Players:GetPlayers()) do
-	pcall(function()
-	if v ~= game.Players.LocalPlayer and v.TeamColor.Name ~= plr.TeamColor.Name and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChildOfClass"ForceField" == nil then
-	
-	local Distance = (v.Character:FindFirstChildOfClass("Part").Position - game.Players.LocalPlayer.Character:FindFirstChildOfClass("Part").Position).magnitude
-	if Distance <= reach then
-	for i = 1,25 do
-    plr.Character.Humanoid.RootPart.CFrame = v.Character.Humanoid.RootPart.CFrame * CFrame.new(-1.6,0,1.8)
-    local h = getTool()
-    h.Parent = plr.Character
-    h:Activate()
-    if plr.Character:FindFirstChildOfClass"Tool".Name ~= getTool().Name then
-        plr.Character:FindFirstChildOfClass"Humanoid":UnequipTools()
-        end
-    if v.Character.Humanoid.Health <= 0 then
-    loop = false
-    if retry == true then
-    wait(1)
-    KillAura()
-    end
-    end
-	end
-	end 
-    end
-	end)
-	end
-    game:GetService("RunService").Heartbeat:Wait()
-    until loop == false
-
+        repeat
+            for _, v in pairs(game.Players:GetPlayers()) do
+                pcall(function()
+                    if v ~= game.Players.LocalPlayer and v.TeamColor.Name ~= plr.TeamColor.Name and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChildOfClass"ForceField" == nil then
+                        local Distance = (v.Character:FindFirstChildOfClass("Part").Position - game.Players.LocalPlayer.Character:FindFirstChildOfClass("Part").Position).magnitude
+                        if Distance <= reach then
+                            for i = 1, 25 do
+                                if not loop then break end
+                                plr.Character.Humanoid.RootPart.CFrame = v.Character.Humanoid.RootPart.CFrame * CFrame.new(-1.6, 0, 1.8)
+                                local h = getTool()
+                                if h then
+                                    h.Parent = plr.Character
+                                    h:Activate()
+                                    if plr.Character:FindFirstChildOfClass"Tool".Name ~= getTool().Name then
+                                        plr.Character:FindFirstChildOfClass"Humanoid":UnequipTools()
+                                    end
+                                end
+                                if v.Character.Humanoid.Health <= 0 then
+                                    loop = false
+                                    if retry == true then
+                                        task.wait(1)
+                                        KillAura()
+                                    end
+                                end
+                            end
+                        end 
+                    end
+                end)
+            end
+            game:GetService("RunService").Heartbeat:Wait()
+        until loop == false
     else
+        repeat
+            for _, v in pairs(game.Players:GetPlayers()) do
+                pcall(function()
+                    if v ~= game.Players.LocalPlayer and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChildOfClass"ForceField" == nil then
+                        local Distance = (v.Character:FindFirstChildOfClass("Part").Position - game.Players.LocalPlayer.Character:FindFirstChildOfClass("Part").Position).magnitude
+                        if Distance <= reach then
+                            for i = 1, 25 do
+                                if not loop then break end
+                                plr.Character.Humanoid.RootPart.CFrame = v.Character.Humanoid.RootPart.CFrame * CFrame.new(-1.6, 0, 1.8)
+                                local h = getTool()
+                                if h then
+                                    h.Parent = plr.Character
+                                    h:Activate()
+                                    if plr.Character:FindFirstChildOfClass"Tool".Name ~= getTool().Name then
+                                        plr.Character:FindFirstChildOfClass"Humanoid":UnequipTools()
+                                    end
+                                end
+                                if v.Character.Humanoid.Health <= 0 then
+                                    loop = false
+                                    if retry == true then
+                                        task.wait(1)
+                                        KillAura()
+                                    end
+                                end
+                            end
+                        end 
+                    end
+                end)
+            end
+            game:GetService("RunService").Heartbeat:Wait()
+        until loop == false
+    end
+end
 
-    repeat
-    for i,v in pairs(game.Players:GetPlayers()) do
-	pcall(function()
-	if v ~= game.Players.LocalPlayer and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChildOfClass"ForceField" == nil then
-	
-	local Distance = (v.Character:FindFirstChildOfClass("Part").Position - game.Players.LocalPlayer.Character:FindFirstChildOfClass("Part").Position).magnitude
-	if Distance <= reach then
-	for i = 1,25 do
-    plr.Character.Humanoid.RootPart.CFrame = v.Character.Humanoid.RootPart.CFrame * CFrame.new(-1.6,0,1.8)
-    local h = getTool()
-    h.Parent = plr.Character
-    h:Activate()
-    if plr.Character:FindFirstChildOfClass"Tool".Name ~= getTool().Name then
-        plr.Character:FindFirstChildOfClass"Humanoid":UnequipTools()
+-- Clean UI Section Header
+MainTab:CreateSection("Kill Aura Settings")
+
+-- Modernized Toggle Switch for KillAura (Replaces separate On/Off buttons)
+local AuraToggle = MainTab:CreateToggle({
+    Name = "Enable Kill Aura",
+    CurrentValue = false,
+    Flag = "KillAuraToggle",
+    Callback = function(Value)
+        loop = Value
+        retry = Value
+        if Value then
+            task.spawn(KillAura) -- Runs function in background safely without freezing UI
         end
-    if v.Character.Humanoid.Health <= 0 then
-    loop = false
-    if retry == true then
-    wait(1)
-    KillAura()
-    end
-    end
-	end
-	end 
-    end
-	end)
-	end
-    game:GetService("RunService").Heartbeat:Wait()
-    until loop == false
-    end
-    end
-
-  local function notify(Title, Text, Duration)
-     Text = Text or "Text" 
-     Title= Title or "Title"
-     Duration = Duration or 5
-    game:GetService("StarterGui"):SetCore("SendNotification",{
- Title = Title, 
- Text = Text,
- Duration = Duration,
+    end,
 })
-    end
 
-Window:Button("On", function()
-    loop = true
-    retry = true
-    KillAura()
-    
-end)
+-- Clean Dropdown Menu
+local ModeDropdown = MainTab:CreateDropdown({
+    Name = "Target Mode",
+    Options = {"Enemies Only", "Everyone"},
+    CurrentOption = {"Enemies Only"},
+    MultipleOptions = false,
+    Flag = "TargetMode",
+    Callback = function(Option)
+        if typeof(Option) == "table" then Option = Option[1] end -- Handle structural array formatting safely
+        if Option == "Enemies Only" then
+            _G.enemOnly = true
+        else
+            _G.enemOnly = false
+        end
+    end,
+})
 
-Window:Button("Off", function()
-    loop = false
-    retry = false
-    
-    loop = false
-    retry = false    
-end)
-
-Window:Box("Reach - 150", function(text, focuslost)
-   if focuslost then
-   local num = tonumber(text)
-   if not num then
-    notify("Error", "Please enter a valid number for reach.")
-   elseif num < 10 then
-    reach = 10
-    notify("Minimum", "The minimum reach is 10, current reach: "..reach)
-   elseif num > 150 then
-    reach = 150
-    notify("Maximum", "The maximum reach is 150, current reach: "..reach)
-   else
-    reach = num
-    notify("Reach Updated", "Current reach set to: "..reach)
-   end
-   end
-end)
-
-local dropdown = Window:Dropdown("Mode", {"enemies only", "others"}, function(o)
-    if o == "enemies only" then
-    _G.enemOnly = true
-    elseif o == "others" then
-    _G.enemOnly = false
-    end
-end)
+-- Modern Dynamic Slider (Replaces the old typing text box for reach)
+local ReachSlider = MainTab:CreateSlider({
+    Name = "Attack Reach",
+    Min = 10,
+    Max = 150,
+    CurrentValue = 150,
+    Flag = "ReachSlider",
+    Callback = function(Value)
+        reach = Value
+    end,
+})
