@@ -1,5 +1,5 @@
 -- Modern Rayfield UI Library Setup
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu'))()
+local Rayfield = loadstring(game:GetService("HttpService"):GetAsync('https://sirius.menu'))()
 
 -- Script Notification (Runs instantly when executed)
 Rayfield:Notify({
