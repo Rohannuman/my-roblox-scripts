@@ -1,6 +1,3 @@
---[[
-    WARNING: Unbelievable Hub (Kill Aura with Dynamic Range & Auto-Tool Equipment)
-]]
 
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
