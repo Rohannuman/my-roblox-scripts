@@ -14,7 +14,7 @@ local camera = workspace.CurrentCamera
 
 -- Main ScreenGui
 local gui = Instance.new("ScreenGui")
-gui.Name = "UnbelievableHubEdition"
+gui.Name = "Unbelievable Hub"
 gui.ResetOnSpawn = false
 gui.Parent = (CoreGui:FindFirstChild("CoreGui") and CoreGui) or player:WaitForChild("PlayerGui")
 
@@ -42,8 +42,6 @@ mainFrame.Position = UDim2.new(0, 90, 0, 90)
 mainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 16)
 mainFrame.BorderSizePixel = 0
 mainFrame.Parent = gui
-
-gui.Name = "Unbelievable Hub"
 
 local mainCorner = Instance.new("UICorner", mainFrame)
 mainCorner.CornerRadius = UDim.new(0, 14)
